@@ -1,0 +1,13 @@
+#include <iostream>
+using namespace std;
+int main()
+{
+    double Base, Altura, Area;
+    cout<<"Ingresar la base ";
+    cin>>Base;
+    cout<<"Ingresar la altura ";
+    cin>>Altura;
+    Area = (Base*Altura)/2;
+    cout<<"El area es: "<< Area;
+    return 0;
+}
