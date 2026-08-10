@@ -1,0 +1,11 @@
+#include <iostream>
+using namespace std;
+int main()
+{
+    double Radio, Area;
+    cout<<"Ingresar el radio ";
+    cin>>Radio;
+    Area = 3.141592*Radio*Radio;
+    cout<<"El area es: "<< Area;
+    return 0;
+}
