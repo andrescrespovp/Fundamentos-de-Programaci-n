@@ -1,0 +1,18 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    int i = 1, suma = 0;
+    
+    while(i <= 10){
+        suma = suma + i;
+        cout<< i;
+        i++;
+        if(i<=10)
+            cout<<" + ";
+    }
+    cout<<" = "<< suma; 
+    
+    return 0;
+}
