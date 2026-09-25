@@ -1,0 +1,149 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    int dian, mesn, anion;
+    int diaa, mesa, anioa;
+    int diamaxn, diamaxa;
+    int diastotales;
+    char separador;
+    int aniosbis, aniosnorml;
+
+    cout << "Escribe tu fecha de nacimiento en el siguiente formato (dd/mm/yy): ";
+    cin >> dian >> separador >> mesn >> separador >> anion;
+
+    cout << "Escribe la fecha actual en el siguiente formato (dd/mm/yy): ";
+    cin >> diaa >> separador >> mesa >> separador >> anioa;
+
+    if (mesn == 1 || mesn == 3 || mesn == 5 || mesn == 7 || mesn == 8 || mesn == 10 || mesn == 12) {
+        diamaxn = 31;
+    } 
+    else {
+        if (mesn == 2) {
+            diamaxn = 28;
+            if ((anion % 4 == 0 && anion % 100 != 0) || anion % 400 == 0)
+                diamaxn = 29;
+        }
+        diamaxn = 30;
+    }
+
+    if (mesa == 1 || mesa == 3 || mesa == 5 || mesa == 7 || mesa == 8 || mesa == 10 || mesa == 12) {
+        diamaxa = 31;
+    } 
+    else {
+        if (mesa == 2) {
+            diamaxa = 28;
+            if ((anioa % 4 == 0 && anioa % 100 != 0) || anioa % 400 == 0)
+                diamaxa = 29;
+        }
+        diamaxa = 30;
+    }
+
+    if (dian > diamaxn || dian <= 0) {
+        cout << "El dia de nacimiento es invalido." << endl;
+        return 0;
+    }
+    if (diaa > diamaxa || diaa <= 0) {
+        cout << "El dia actual es invalido." << endl;
+        return 0;
+    }
+    if (mesn > 12 || mesn <= 0) {
+        cout << "El mes de nacimiento es invalido." << endl;
+        return 0;
+    }
+    if (mesa > 12 || mesa <= 0) {
+        cout << "El mes actual es invalido." << endl;
+        return 0;
+    }
+
+    aniosbis = (anioa - 1) / 4 - (anioa - 1) / 100 + (anioa - 1) / 400 - ((anion) / 4 - (anion) / 100 + (anion) / 400);
+    aniosnorml = anioa - anion - aniosbis - 1;
+
+    diastotales = aniosbis * 366 + aniosnorml * 365;
+
+    // Días restantes del año de nacimiento
+    if (mesn < 12)
+        diastotales = diastotales + 31;
+    if (mesn < 11)
+        diastotales = diastotales + 30;
+    if (mesn < 10)
+        diastotales = diastotales + 31;
+    if (mesn < 9)
+        diastotales = diastotales + 30;
+    if (mesn < 8)
+        diastotales = diastotales + 31;
+    if (mesn < 7)
+        diastotales = diastotales + 31;
+    if (mesn < 6)
+        diastotales = diastotales + 30;
+    if (mesn < 5)
+        diastotales = diastotales + 31;
+    if (mesn < 4)
+        diastotales = diastotales + 30;
+    if (mesn < 3)
+        diastotales = diastotales + 31;
+    if (mesn < 2) {
+        if ((anion % 4 == 0 && anion % 100 != 0) || anion % 400 == 0) {
+            diastotales = diastotales + 29;
+        } 
+        else {
+            diastotales = diastotales + 28;
+        }
+    }
+
+    if (mesn == 1 || mesn == 3 || mesn == 5 || mesn == 7 || mesn == 8 || mesn == 10 || mesn == 12) {
+        diastotales = diastotales + 31 - dian;
+    } 
+    else {
+        if (mesn == 2) {
+            if ((anion % 4 == 0 && anion % 100 != 0) || anion % 400 == 0) {
+                diastotales = diastotales + 29 - dian;
+            } 
+            else {
+                diastotales = diastotales + 28 - dian;
+            }
+        } 
+        else {
+            diastotales = diastotales + 30 - dian;
+        }
+    }
+
+    if (mesa > 1)
+        diastotales = diastotales + 31;
+    if (mesa > 2) {
+        if ((anioa % 4 == 0 && anioa % 100 != 0) || anioa % 400 == 0) {
+            diastotales = diastotales + 29;
+        } 
+        else {
+            diastotales = diastotales + 28;
+        }
+    }
+    if (mesa > 3)
+        diastotales = diastotales + 31;
+    if (mesa > 4)
+        diastotales = diastotales + 30;
+    if (mesa > 5)
+        diastotales = diastotales + 31;
+    if (mesa > 6)
+        diastotales = diastotales + 31;
+    if (mesa > 7)
+        diastotales = diastotales + 30;
+    if (mesa > 8)
+        diastotales = diastotales + 31;
+    if (mesa > 9)
+        diastotales = diastotales + 30;
+    if (mesa > 10)
+        diastotales = diastotales + 31;
+    if (mesa > 11) {
+        diastotales = diastotales + 30;
+    }
+
+    if (diastotales < 0)
+        cout << "El dia actual debe ser mas reciente que el nacimiento.";
+
+    diastotales = diastotales + diaa;
+    cout << "Los dias totales desde que naci son: " << diastotales;
+
+    return 0;
+}
