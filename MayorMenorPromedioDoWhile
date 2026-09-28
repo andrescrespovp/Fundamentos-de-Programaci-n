@@ -1,0 +1,42 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	int menor, i = 1, mayor, n, respuesta;
+	float suma;
+	cout<<"Introduzca su numero: ";
+	cin>>n;
+
+	if (n<0) {
+		cout<<"Numero introducido erroneo.";
+		return 0;
+	}
+
+	mayor = n;
+	menor = n;
+	suma = n;
+	suma = suma + n;
+
+	do {
+		cout<<"Introduzca otro numero: ";
+		cin>>n;
+		i++;
+		if (n<0) {
+			cout<<"Numero introducido erroneo.";
+			return 0;
+		}
+
+		if (n>mayor)
+			mayor = n;
+		if (menor>n)
+			menor = n;
+		suma = suma + n;
+		cout<<"Quiere introducir otro numero?(Si = 1, No = 0) ";
+		cin>>respuesta;
+	} while (respuesta != 0);
+	cout<<"El promedio es: "<<suma/i<<endl;
+	cout<<"El mayor es: "<<mayor<<endl;
+	cout<<"El menor es: "<<menor<<endl;
+	return 0;
+}
