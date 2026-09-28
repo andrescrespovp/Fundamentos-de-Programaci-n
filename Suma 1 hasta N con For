@@ -1,0 +1,18 @@
+#include <iostream>
+using namespace std;
+int main()
+{
+    int N, suma = 0;
+    cout<<"Ingrese el valor de N: ";
+    cin>>N;
+    cout<<"La suma es ";
+    for (int i = 1; i <= N; i++) {
+        suma = suma + i;
+        if (i == N){
+            cout << i << " = ";
+        } else
+        cout<<i<<" + ";
+    } 
+    cout<<suma<<endl;
+    return 0;
+}
