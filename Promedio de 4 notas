@@ -1,0 +1,33 @@
+#include <iostream>
+using namespace std;
+int main(){
+    float nota1, nota2, nota3, nota4, promedio;
+    cout<<"Introduzca la primer nota: ";
+    cin>>nota1;
+    cout<<"Introduzca la segunda nota: ";
+    cin>>nota2;
+    cout<<"Introduzca la tercera nota: ";
+    cin>>nota3;
+    cout<<"Introduzca la cuarta nota: ";
+    cin>>nota4;
+    
+    if (nota1>=0&&nota1<=10&&nota1>=0&&nota2<=10&&nota3>=0&&nota3<=10&&nota4>=0&&nota4<=10) {
+    promedio = (nota1+nota2+nota3+nota4)/4;
+    cout<<"Tu promedio es: "<<promedio<<endl;
+    if (promedio<=10&&promedio>=6) {
+        cout<<"Aprobado";
+        return 0;}
+    if (promedio<6&&promedio>=5) {
+        cout<<"Derecho a extraordinario";
+        return 0;}
+    if (promedio<5&&promedio>=2) {
+        cout<<"Derecho a titulo";
+        return 0;}
+    if (promedio<2&&promedio>=0) {
+        cout<<"Sin derecho a acreditar";
+        return 0;}
+    }
+    else
+    cout<<"La entrada de notas es invalida, debe ser de 0 a 10.";
+    return 0;
+}
