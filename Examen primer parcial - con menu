@@ -1,0 +1,82 @@
+#include <iostream>
+void Menu();
+void primerapregunta(int edad, int nota);
+int precio(int x);
+float totalapagar(int cantidad, float costo);
+
+using namespace std;
+int main() {
+	int opcion, edad, nota, peso, a, b;
+	// Menu
+	do {
+		Menu();
+		cin >> opcion;
+		// Condicional multiple
+		switch (opcion)
+		{
+		case 1: cout << "Ingrese la edad: ";
+			cin >> edad;
+			cout << "Ingresa nota: ";
+			cin >> nota;
+			primerapregunta(edad, nota);
+			break;
+		case 2: cout << "Ingrese el peso del paquete: ";
+			cin >> peso;
+			cout << "El peso del paquete es: "<<precio(peso);
+			break;
+		case 3: cout << "Ingrese la cantidad de las camisas: ";
+			cin >> a;
+			cout << "Ingrese el precio del total: ";
+			cin >> b;
+			cout << "El total a pagar de las camisas es: " << totalapagar(a, b);
+			break;
+		case 0: cout << "Saliendo del Menu";
+			break;
+		default: cout << "ERROR de opcion";
+			break;
+		}
+		system("pause");
+		system("cls");
+	} while (opcion != 0);
+
+}
+
+void Menu(); {
+	cout << "\t\t Menu \n";
+	cout << "\t\t ==== \n";
+	cout << "1. Primera pregunta\n";
+	cout << "2. Segunda pregunta.\n";
+	cout << "3. Tercera pregunta\n";
+	cout << "0. Salir\n";
+	cout << "Opcion: ";
+}
+void primerapregunta(int edad, int nota) {
+	if (edad >= 18)
+		if (nota >= 70)
+			cout << "Aprobado - Mayor de edad.";
+		else
+			cout << "Reprobado - Menor de edad.";
+	else
+		if (nota >= 60)
+			cout << "Aprobado - Menor de edad.";
+		else
+			cout << "Reprobado - Menor de edad.";
+}
+int precio(int x) {
+	int costo;
+	if (x < 2)
+		costo = x * 15;
+	else
+		if (x > 2 && x <= 5)
+			costo = x * 25;
+		else
+			if (x > 5 && x < 10)
+				costo = x * 40;
+	return costo;
+}
+float totalapagar(int cantidad, float costo) {
+	float resultado;
+	if (cantidad < 3)
+		resultado = cantidad * costo;
+	else
+}
