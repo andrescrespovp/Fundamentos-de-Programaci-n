@@ -1,0 +1,27 @@
+#include <iostream>
+using namespace std;
+bool Bisiesto(int n);
+
+int main() {
+	int n;
+	cout << "Ingresa un anio: ";
+	cin >> n;
+	if (Bisiesto(n))
+		cout << "El anio es bisiesto.";
+	else
+		cout << "El anio no es bisiesto.";
+	return 0;
+}
+
+bool Bisiesto(int n) {
+	if (n > 0)
+		if (n % 400 == 0)
+			return true;
+		else
+			if (n % 4 == 0 && n % 100 != 0)
+				return true;
+			else
+				return false;
+	else
+		return false;
+}
