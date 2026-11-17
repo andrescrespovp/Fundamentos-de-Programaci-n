@@ -1,0 +1,153 @@
+
+#include <raylib.h>
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+bool registrarUsuario(string usuarios[], string claves[], int &t, string nuevoUser, string nuevaClave);
+bool iniciarSesion(string usuarios[], string claves[], int t, string user, string clave);
+
+int main() {
+    InitWindow(1080, 750, "Autentificacion - Ejemplo");
+    SetTargetFPS(60);
+
+    const int MAX = 100;
+    string usuarios[MAX];
+    string claves[MAX];
+    int t = 1;
+
+    usuarios[0] = "admin";
+    claves[0] = "1234";
+
+    // Variables de interfaz
+    string inputUsuario = "";
+    string inputClave = "";
+    int cajaActiva = 1;
+    string mensaje = "Registra un usuario nuevo o entra con admin / 1234";
+    Color colorMensaje = DARKGRAY;
+
+    Rectangle cajaUsuario = { 240, 195, 600, 67.5 };
+    Rectangle cajaClave = { 240, 330, 600, 67.5 };
+    Rectangle btnRegistrar = { 240, 450, 285, 75 };
+    Rectangle btnIngresar = { 555, 450, 285, 75 };
+
+    // 1. BUCLE PRINCIPAL
+    while (!WindowShouldClose()) {
+        Vector2 mouse = GetMousePosition();
+        
+        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+            if (CheckCollisionPointRec(mouse, cajaUsuario))
+                cajaActiva = 1;
+            else
+                if (CheckCollisionPointRec(mouse, cajaClave))
+                    cajaActiva = 2;
+        }
+
+        int tecla = GetCharPressed();
+        while (tecla > 0) {
+            if (tecla >= 32 && tecla <= 125) {
+                if (cajaActiva == 1 && inputUsuario.length() < 15)
+                    inputUsuario += (char)tecla;
+                if (cajaActiva == 2 && inputClave.length() < 15)
+                    inputClave += (char)tecla;
+            }
+            tecla = GetCharPressed();
+        }
+
+        if (IsKeyPressed(KEY_BACKSPACE)) {
+            if (cajaActiva == 1 && !inputUsuario.empty())
+                inputUsuario.pop_back();
+            if (cajaActiva == 2 && !inputClave.empty())
+                inputClave.pop_back();
+        }
+
+        // boton registrar
+        bool sobreRegistrar = CheckCollisionPointRec(mouse, btnRegistrar);
+        if (sobreRegistrar && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+            if (registrarUsuario(usuarios, claves, t, inputUsuario, inputClave)) {
+                mensaje = "Usuario '" + inputUsuario + "' registrado! Total: " + to_string(t);
+                colorMensaje = DARKGREEN;
+                inputUsuario = "";
+                inputClave = "";
+            }
+            else {
+                mensaje = "Error: campo vacio o el usuario ya existe.";
+                colorMensaje = RED;
+            }
+        }
+
+        // boton ingresar
+        bool sobreIngresar = CheckCollisionPointRec(mouse, btnIngresar);
+        if (sobreIngresar && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+            if (iniciarSesion(usuarios, claves, t, inputUsuario, inputClave)) {
+                mensaje = "Bienvenido al sistema, " + inputUsuario + "!";
+                colorMensaje = DARKGREEN;
+            }
+            else {
+                mensaje = "Usuario o contrasena incorrectos.";
+                colorMensaje = RED;
+            }
+        }
+
+        // Dibujar pantalla
+        BeginDrawing();
+        ClearBackground(YELLOW);
+
+        DrawText("REGISTRAR / INGRESAR", 310, 67, 39, VIOLET);
+
+        DrawText("Usuario:", 240, 157, 27, DARKGRAY);
+        DrawRectangleRec(cajaUsuario, WHITE);
+        DrawRectangleLinesEx(cajaUsuario, 3, (cajaActiva == 1) ? BLUE : GRAY);
+        DrawText(inputUsuario.c_str(), 255, 213, 30, BLACK);
+
+
+        DrawText("Contrasena:", 240, 292, 27, DARKGRAY);
+        DrawRectangleRec(cajaClave, WHITE);
+        DrawRectangleLinesEx(cajaClave, 3, (cajaActiva == 2) ? BLUE : GRAY);
+        string asteriscos(inputClave.length(), '*');
+        DrawText(asteriscos.c_str(), 255, 348, 30, BLACK);
+
+        DrawRectangleRec(btnRegistrar, sobreRegistrar ? DARKGRAY : GRAY);
+        DrawText("REGISTRAR", 302, 472, 30, WHITE);
+
+        DrawRectangleRec(btnIngresar, sobreIngresar ? SKYBLUE : BLUE);
+        DrawText("INGRESAR", 620, 472, 30, WHITE);
+
+
+        DrawText(mensaje.c_str(), 240, 585, 29, colorMensaje);
+
+        EndDrawing();
+    }
+
+    // 2. CIERRE
+    CloseWindow();
+    return 0;
+}
+
+
+bool registrarUsuario(string usuarios[], string claves[], int& t, string nuevoUser, string nuevaClave) {
+    //ERROR
+    if (nuevoUser == "" || nuevaClave == "" || t >= 100)
+        return false;
+
+    for (int i = 0; i < t; i++) {
+        if (usuarios[i] == nuevoUser)
+            return false;
+    }
+
+    // Guardar usuario
+    usuarios[t] = nuevoUser;
+    claves[t] = nuevaClave;
+    t++;
+    return true;
+}
+
+
+bool iniciarSesion(string usuarios[], string claves[], int t, string user, string clave) {
+    for (int i = 0; i < t; i++) {
+        if (usuarios[i] == user && claves[i] == clave)
+            return true;
+    }
+    return false;
+}
