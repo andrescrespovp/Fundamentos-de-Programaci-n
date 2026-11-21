@@ -1,0 +1,30 @@
+#include <iostream>
+using namespace std;
+int main()
+{
+	int n, numero = 2, c = 0;
+	bool flag = true;
+	cout<<"Ingrese el numero de primos que desea: ";
+	cin>>n;
+
+	if (n>=1) {
+		while (c<n) {
+			for (int i = 2; (i*i)<=numero; i++) {
+				if (numero%i == 0 ) {
+					flag = false;
+					break;
+				}
+			}
+			if (flag) {
+				cout<<numero<<", ";
+				c++;
+			}
+			numero++;
+			flag = true;
+		}
+	}
+	else {
+		cout<<"Su numero no es valido. Debe ser mayor a 0. \n";
+	}
+	return 0;
+}
