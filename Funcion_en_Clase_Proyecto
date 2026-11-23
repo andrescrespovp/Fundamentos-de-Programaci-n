@@ -1,0 +1,332 @@
+#include <iostream>
+#include <string>
+#include <conio.h>
+
+#define MAX 100
+
+using namespace std;
+
+// Variables Globales y Estructuras
+struct Usuario {
+    string nombre;
+    string clave;
+};
+
+struct Persona {
+    string nombre;
+    string fechanac;
+    string ci;
+    string direccion;
+    string telefono;
+};
+
+Usuario usuarios[MAX];
+Persona personas[MAX];
+
+int nUsuarios = 0;
+int nPersonas = 0;
+
+// Prototipos
+void registrarUsuario();
+void listarUsuarios();
+bool login();
+void borrarUsuario();
+void modificarUsuario();
+
+// Prototipos
+void menuPersonas();
+void registrarPersona();
+void listarPersonas();
+void borrarPersona();
+void modificarPersona();
+string leerContrasenia();
+
+int main() {
+    int opcion;
+    do {
+        cout << "\n---Sistema de Login---\n" << endl;
+        cout << "1. Registrar usuario" << endl;
+        cout << "2. Listar usuarios" << endl;
+        cout << "3. Iniciar Sesion" << endl;
+        cout << "4. Borrar usuario" << endl;
+        cout << "5. Modificar usuario" << endl;
+        cout << "0. Salir" << endl;
+        cout << "Seleccione una opcion: ";
+        cin >> opcion;
+
+        switch (opcion) {
+        case 1:
+            registrarUsuario();
+            break;
+        case 2:
+            listarUsuarios();
+            break;
+        case 3:
+            if (login())
+                menuPersonas();
+            break;
+        case 4:
+            borrarUsuario();
+            break;
+        case 5:
+            modificarUsuario();
+            break;
+        case 0:
+            cout << "Has salido del sistema.\n";
+            break;
+        default:
+            cout << "Opcion invalida.\n";
+            break;
+        }
+    } while (opcion != 0);
+
+    return 0;
+}
+
+// USUARIO
+void registrarUsuario() {
+    if (nUsuarios >= MAX) {
+        cout << "Limite de usuarios alcanzado.\n";
+        return;
+    }
+
+    string nombre;
+    cout << "\n--- Registrar Usuario ---\n";
+    cout << "Ingrese usuario: ";
+    cin >> nombre;
+
+    for (int i = 0; i < nUsuarios; i++) {
+        if (usuarios[i].nombre == nombre) {
+            cout << "Usuario ya existente.\n";
+            return;
+        }
+    }
+
+    usuarios[nUsuarios].nombre = nombre;
+    cout << "Ingrese contrasenia: ";
+    usuarios[nUsuarios].clave = leerContrasenia();
+    nUsuarios++;
+    cout << "Usuario registrado con exito.\n";
+}
+
+void listarUsuarios() {
+    cout << "\n--- Lista de Usuarios ---\n";
+    if (nUsuarios == 0) {
+        cout << "No hay usuarios registrados.\n";
+        return;
+    }
+    for (int i = 0; i < nUsuarios; i++) {
+        cout << i + 1 << ". " << usuarios[i].nombre << endl;
+    }
+}
+
+bool login() {
+    string nombre, clave;
+    cout << "\n--- Iniciar Sesion ---\n";
+    cout << "Usuario: ";
+    cin >> nombre;
+    cout << "Contrasenia: ";
+    clave = leerContrasenia();
+
+    for (int i = 0; i < nUsuarios; i++) {
+        if ((usuarios[i].nombre == nombre) && (usuarios[i].clave == clave)) {
+            cout << "\nBienvenido " << nombre << endl;
+            return true;
+        }
+    }
+    cout << "Usuario o contrasenia incorrectas.\n";
+    return false;
+}
+
+void borrarUsuario() {
+    string nombre;
+    cout << "\n--- Borrar Usuario ---\n";
+    cout << "Ingrese el nombre del usuario a borrar: ";
+    cin >> nombre;
+
+    for (int i = 0; i < nUsuarios; i++) {
+        if (usuarios[i].nombre == nombre) {
+            // Desplazar hacia la izquierda
+            for (int j = i; j < nUsuarios - 1; j++) {
+                usuarios[j] = usuarios[j + 1];
+            }
+            nUsuarios--;
+            cout << "Usuario eliminado.\n";
+            return;
+        }
+    }
+    cout << "Usuario no encontrado.\n";
+}
+
+void modificarUsuario() {
+    string nombre;
+    cout << "\n--- Modificar Usuario ---\n";
+    cout << "Ingrese el nombre del usuario a modificar: ";
+    cin >> nombre;
+
+    for (int i = 0; i < nUsuarios; i++) {
+        if (usuarios[i].nombre == nombre) {
+            cout << "Ingrese nueva contrasenia: ";
+            usuarios[i].clave = leerContrasenia();
+            cout << "Contrasenia actualizada.\n";
+            return;
+        }
+    }
+    cout << "Usuario no encontrado.\n";
+}
+
+// PERSONA
+void menuPersonas() {
+    int opcion;
+    do {
+        cout << "\n=== Gestion de Personas ===" << endl;
+        cout << "1. Registrar persona" << endl;
+        cout << "2. Listar personas" << endl;
+        cout << "3. Borrar persona" << endl;
+        cout << "4. Modificar persona" << endl;
+        cout << "0. Cerrar sesion" << endl;
+        cout << "Seleccione una opcion: ";
+        cin >> opcion;
+
+        switch (opcion) {
+        case 1:
+            registrarPersona();
+            break;
+        case 2:
+            listarPersonas();
+            break;
+        case 3:
+            borrarPersona();
+            break;
+        case 4:
+            modificarPersona();
+            break;
+        case 0:
+            cout << "Sesion cerrada.\n";
+            break;
+        default:
+            cout << "Opcion invalida.\n";
+            break;
+        }
+    } while (opcion != 0);
+}
+
+void registrarPersona() {
+    if (nPersonas >= MAX) {
+        cout << "Limite de personas alcanzado.\n";
+        return;
+    }
+
+    string ci;
+    cout << "\n--- Registrar Persona ---\n";
+    cout << "Ingrese CI: ";
+    cin >> ci;
+
+    for (int i = 0; i < nPersonas; i++) {
+        if (personas[i].ci == ci) {
+            cout << "Ya existe una persona con ese CI.\n";
+            return;
+        }
+    }
+
+    personas[nPersonas].ci = ci;
+    cin.ignore();
+    cout << "Ingrese nombre completo: ";
+    getline(cin, personas[nPersonas].nombre);
+    cout << "Ingrese fecha de nacimiento (DD/MM/AAAA): ";
+    cin >> personas[nPersonas].fechanac;
+    cin.ignore();
+    cout << "Ingrese direccion: ";
+    getline(cin, personas[nPersonas].direccion);
+    cout << "Ingrese telefono: ";
+    cin >> personas[nPersonas].telefono;
+    nPersonas++;
+    cout << "Persona registrada con exito.\n";
+}
+
+void listarPersonas() {
+    cout << "\n--- Lista de Personas ---\n";
+    if (nPersonas == 0) {
+        cout << "No hay personas registradas.\n";
+        return;
+    }
+    for (int i = 0; i < nPersonas; i++) {
+        cout << "Registro #" << i + 1 << endl;
+        cout << " CI: " << personas[i].ci << endl;
+        cout << " Nombre: " << personas[i].nombre << endl;
+        cout << " Fecha Nac: " << personas[i].fechanac << endl;
+        cout << " Direccion: " << personas[i].direccion << endl;
+        cout << " Telefono: " << personas[i].telefono << endl;
+        cout << "---------------------------\n";
+    }
+}
+
+void borrarPersona() {
+    string ci;
+    cout << "\n--- Borrar Persona ---\n";
+    cout << "Ingrese el CI de la persona a borrar: ";
+    cin >> ci;
+
+    for (int i = 0; i < nPersonas; i++) {
+        if (personas[i].ci == ci) {
+            for (int j = i; j < nPersonas - 1; j++) {
+                personas[j] = personas[j + 1];
+            }
+            nPersonas--;
+            cout << "Persona eliminada.\n";
+            return;
+        }
+    }
+    cout << "Persona no encontrada.\n";
+}
+
+void modificarPersona() {
+    string ci;
+    cout << "\n--- Modificar Persona ---\n";
+    cout << "Ingrese el CI de la persona a modificar: ";
+    cin >> ci;
+
+    for (int i = 0; i < nPersonas; i++) {
+        if (personas[i].ci == ci) {
+            cin.ignore();
+            cout << "Nuevo nombre completo: ";
+            getline(cin, personas[i].nombre);
+            cout << "Nueva fecha de nacimiento: ";
+            cin >> personas[i].fechanac;
+            cin.ignore();
+            cout << "Nueva direccion: ";
+            getline(cin, personas[i].direccion);
+            cout << "Nuevo telefono: ";
+            cin >> personas[i].telefono;
+
+            cout << "Datos actualizados.\n";
+            return;
+        }
+    }
+    cout << "Persona no encontrada.\n";
+}
+
+// Lee la contrasenia muestra un asterisco por cada tecla.
+string leerContrasenia() {
+    string clave = "";
+    char tecla;
+
+    while (true) {
+        tecla = _getch();
+        if (tecla == 13) {
+            break;
+        }
+        else if (tecla == 8) {
+            if (!clave.empty()) {
+                clave.pop_back();
+                cout << "\b \b";
+            }
+        }
+        else {
+            clave += tecla;
+            cout << "*";
+        }
+    }
+    cout << endl;
+    return clave;
+}
